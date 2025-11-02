@@ -29,14 +29,16 @@ const initialSponsorRequests: SponsorRequest[] = [
       id: 'sponsor-1',
       name: 'ArtLover22',
       avatarUrl: 'https://picsum.photos/seed/sponsor1/100/100',
-      contributionAmount: 50,
+      monthlyContribution: 50,
+      sharePercentage: 10,
       message: 'Love your work! Would be honored to support your journey.',
     },
     {
       id: 'sponsor-2',
       name: 'CreativeFund',
       avatarUrl: 'https://picsum.photos/seed/sponsor2/100/100',
-      contributionAmount: 100,
+      monthlyContribution: 100,
+      sharePercentage: 15,
       message: 'We support emerging artists. Your portfolio is impressive.',
     },
 ];
@@ -136,16 +138,18 @@ export default function SponsorsPage() {
         <div className="space-y-4 pt-4">
           {sponsorRequests.map((request) => (
             <Card key={request.id}>
-              <CardHeader className="flex-row items-center gap-4 pb-4">
+              <CardHeader className="flex-row items-start gap-4 pb-4">
                  <Avatar className="h-12 w-12">
                   <AvatarImage src={request.avatarUrl} alt={request.name} />
                   <AvatarFallback>{request.name.charAt(0)}</AvatarFallback>
                 </Avatar>
-                <div>
+                <div className="w-full">
                     <CardTitle className="text-lg">{request.name}</CardTitle>
-                    <CardDescription>
-                        {t.offering} <Badge variant="secondary">₹{request.contributionAmount}/month</Badge>
-                    </CardDescription>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm mt-1">
+                        <span className="font-medium">Offer:</span>
+                        <Badge variant="secondary">₹{request.monthlyContribution}/month</Badge>
+                        <Badge variant="secondary">{request.sharePercentage}% Revenue Share</Badge>
+                    </div>
                 </div>
               </CardHeader>
               <CardContent>
@@ -194,9 +198,12 @@ export default function SponsorsPage() {
               <CardContent className="flex-grow space-y-2">
                 <div className="text-sm">
                   <span className="font-semibold">{t.contribution}: </span>
-                  <Badge variant="secondary">₹{sponsor.contributionAmount}/month</Badge>
+                   <div className="flex flex-wrap gap-2 mt-1">
+                        <Badge variant="secondary">₹{sponsor.monthlyContribution}/month</Badge>
+                        <Badge variant="secondary">{sponsor.sharePercentage}% Revenue Share</Badge>
+                    </div>
                 </div>
-                <p className="text-sm text-muted-foreground">{sponsor.message}</p>
+                <p className="text-sm text-muted-foreground pt-2">{sponsor.message}</p>
               </CardContent>
               <CardContent className="flex flex-col gap-2">
                  <Button onClick={() => handleChat(sponsor.name)} variant="outline" className="w-full">

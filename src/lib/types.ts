@@ -24,7 +24,7 @@ export type Artisan = {
   id: string;
   name: string;
   avatar: {
-    url: string;
+    url:string;
     hint: string;
   };
   crafts?: string[];
@@ -47,7 +47,8 @@ export type SponsorRequest = {
     id: string;
     name: string;
     avatarUrl: string;
-    contributionAmount: number;
+    monthlyContribution: number;
+    sharePercentage: number;
     message: string;
 }
 
