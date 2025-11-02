@@ -36,7 +36,7 @@ const tutorials: Tutorial[] = [
   {
     id: 'orders',
     title: 'Managing Orders',
-    videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
+    videoUrl: 'https://ik.imagekit.io/u92ylzrua/Orders.mp4?updatedAt=1762100559448',
     description: "Learn how to accept new order requests and update the status of ongoing orders from processing to delivery."
   },
   {
@@ -131,4 +131,5 @@ export default function TutorialDialog({ pageId, children }: TutorialDialogProps
 }
 
     
+
 
