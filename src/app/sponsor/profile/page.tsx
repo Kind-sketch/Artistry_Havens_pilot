@@ -29,7 +29,7 @@ export default function ProfilePage() {
   const t = translations.sponsor_profile_page;
   
   const [sponsor, setSponsor] = useState({
-      name: 'Sponsor Name',
+      name: 'Aanya Sharma',
       avatarUrl: 'https://picsum.photos/seed/sponsor/200',
       phone: '123-456-7890'
   });
