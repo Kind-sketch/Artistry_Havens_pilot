@@ -1,3 +1,4 @@
+
 /**
  * ✅ Artistry Havens Firebase Backend
  * Handles: User creation, message processing with Genkit AI,
@@ -46,7 +47,7 @@ exports.testBackend = onRequest((req, res) => {
  * 👤 Trigger: When a new user document is created in Firestore.
  * Path: users/{userId}
  */
-exports.onUserCreate = onDocumentCreated("users/{userId}", async (event) => {
+exports.onNewUserCreate = onDocumentCreated("users/{userId}", async (event) => {
   const snap = event.data;
   if (!snap) {
     logger.error("No data in onUserCreate event.");
@@ -78,7 +79,7 @@ exports.onUserCreate = onDocumentCreated("users/{userId}", async (event) => {
  * 💬 Trigger: When a new message document is created.
  * Path: messages/{messageId}
  */
-exports.onMessageCreate = onDocumentCreated(
+exports.onNewMessageCreate = onDocumentCreated(
     "messages/{messageId}",
     async (event) => {
       const snap = event.data;
