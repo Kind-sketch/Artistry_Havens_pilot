@@ -17,6 +17,9 @@ export default function ArtisanLayout({
   const pathname = usePathname();
   const noSidebarRoutes = ['/artisan/register', '/artisan/category-selection', '/artisan/post-auth', '/artisan/register-recovery'];
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  
+  const showAddProductButton = !pathname.startsWith('/artisan/add-product');
+
 
   if (noSidebarRoutes.includes(pathname)) {
     return <main className="h-full overflow-y-auto">{children}</main>;
@@ -44,6 +47,7 @@ export default function ArtisanLayout({
       </header>
       <main className="flex-1 overflow-y-auto bg-muted/40 relative">
         {children}
+        {showAddProductButton && (
           <Link href="/artisan/add-product" passHref>
             <Button
               size="icon"
@@ -53,6 +57,7 @@ export default function ArtisanLayout({
               <Plus className="h-8 w-8" />
             </Button>
           </Link>
+        )}
       </main>
     </div>
   );
