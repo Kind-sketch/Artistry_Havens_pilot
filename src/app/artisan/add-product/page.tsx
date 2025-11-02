@@ -29,6 +29,7 @@ import { useTranslation } from '@/context/translation-context';
 import { useLanguage } from '@/context/language-context';
 import TutorialDialog from '@/components/tutorial-dialog';
 import { Checkbox } from '@/components/ui/checkbox';
+import { HeaderActions } from '@/components/artisan-sidebar';
 
 
 const formSchema = z.object({
@@ -328,13 +329,13 @@ export default function AddProductPage() {
 
   return (
     <div className="p-4 relative">
-        <header className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-sm h-14 flex items-center border-b bg-card px-4 z-50">
+        <header className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-sm h-14 flex items-center justify-between border-b bg-card px-4 z-50">
             <Button onClick={() => router.back()} variant="ghost" size="icon">
                 <ChevronLeft className="h-6 w-6" />
                 <span className="sr-only">{t.backButton}</span>
             </Button>
-            <h1 className="text-lg font-semibold mx-auto">{t.title}</h1>
-            <div className="w-10"></div>
+            <h1 className="text-lg font-semibold">{t.title}</h1>
+            <HeaderActions />
         </header>
 
         <div className="mt-14">
