@@ -113,17 +113,15 @@ export function HeaderActions() {
         recognition.interimResults = false;
 
         recognition.onstart = () => setIsListening(true);
+        
         recognition.onend = () => {
             setIsListening(false);
-            // Don't show an error if we are already processing a valid command
-            if (!spokenCommand && !isProcessing) {
-                // This will catch cases where the mic turns off without any result
-                // console.log('Mic stopped without a command being processed.');
-            }
         };
+        
         recognition.onerror = (event: any) => {
+            // Ignore errors that are not actual failures
             if (event.error === 'no-speech' || event.error === 'aborted') {
-                return; // Don't show a toast for these "errors"
+                return;
             }
             console.error('Speech recognition error:', event.error);
             if (event.error === 'network') {
@@ -132,8 +130,8 @@ export function HeaderActions() {
                     title: t_sidebar.voiceNetworkErrorTitle,
                     description: t_sidebar.voiceNetworkErrorDesc,
                 });
-            } else if (!isProcessing) { // Only show other errors if not already processing
-                toast({ 
+            } else {
+                 toast({ 
                     variant: 'destructive', 
                     title: t_sidebar.voiceErrorTitle,
                     description: t_sidebar.voiceErrorDesc 
@@ -148,7 +146,7 @@ export function HeaderActions() {
             }
         };
 
-    }, [toast, t_sidebar.voiceErrorDesc, t_sidebar.voiceErrorTitle, t_sidebar.voiceNetworkErrorDesc, t_sidebar.voiceNetworkErrorTitle, isProcessing, spokenCommand]);
+    }, [toast, t_sidebar.voiceErrorDesc, t_sidebar.voiceErrorTitle, t_sidebar.voiceNetworkErrorDesc, t_sidebar.voiceNetworkErrorTitle]);
 
     useEffect(() => {
         if (!spokenCommand) {
@@ -195,14 +193,14 @@ export function HeaderActions() {
             toast({ variant: 'destructive', title: 'Not Supported', description: 'Voice commands are not supported on this browser.' });
             return;
         }
-        if (isListening) {
+        if (isListening || isProcessing) {
             recognition.stop();
         } else {
             // Set language just before starting
             recognition.lang = language; 
             recognition.start();
         }
-    }, [isListening, language, toast]);
+    }, [isListening, isProcessing, language, toast]);
 
 
     const markAsRead = (id: string) => {
@@ -225,7 +223,7 @@ export function HeaderActions() {
                 variant="ghost"
                 size="icon"
                 aria-label="Voice Command"
-                className={cn("relative rounded-full", isListening && "bg-destructive text-destructive-foreground animate-pulse")}
+                className={cn("relative rounded-full", (isListening || isProcessing) && "bg-destructive text-destructive-foreground animate-pulse")}
                 onClick={toggleListening}
             >
                 <Mic className="h-5 w-5" />
