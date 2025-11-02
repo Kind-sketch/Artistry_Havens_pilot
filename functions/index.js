@@ -158,4 +158,6 @@ exports.generateAIResponse = onCall(async (request) => {
     logger.error("❌ generateAIResponse failed:", error);
     throw new HttpsError("internal", "Failed to generate AI response.");
   }
+  const {createUserProfile} = require("./users/createProfile");
+  exports.createUserProfile = createUserProfile;
 });
