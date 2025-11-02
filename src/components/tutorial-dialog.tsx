@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Film, BookOpen } from 'lucide-react';
+import { useTranslation } from '@/context/translation-context';
 
 interface Tutorial {
   id: string;
@@ -83,6 +84,9 @@ interface TutorialDialogProps {
 
 export default function TutorialDialog({ pageId, children }: TutorialDialogProps) {
   const tutorial = tutorials.find(t => t.id === pageId);
+  const { translations } = useTranslation();
+  const t = translations.tutorial_dialog;
+
 
   if (!tutorial) {
     return children || null;
@@ -94,7 +98,7 @@ export default function TutorialDialog({ pageId, children }: TutorialDialogProps
       <DialogTrigger asChild>
         <Button variant="secondary" size="sm" className="bg-blue-500 text-white hover:bg-blue-600 absolute top-4 right-4 z-10">
           <BookOpen className="mr-2 h-4 w-4" />
-          Tutorial
+          {t.tutorial}
         </Button>
       </DialogTrigger>
   );
@@ -127,3 +131,4 @@ export default function TutorialDialog({ pageId, children }: TutorialDialogProps
 }
 
     
+
