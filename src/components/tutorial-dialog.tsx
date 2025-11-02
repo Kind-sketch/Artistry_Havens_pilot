@@ -54,7 +54,7 @@ const tutorials: Tutorial[] = [
   {
     id: 'statistics',
     title: 'Analyzing Your Performance',
-    videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
+    videoUrl: 'https://ik.imagekit.io/u92ylzrua/Stat.mp4?updatedAt=1762101425114',
     description: "Discover how to use the statistics page to track likes vs. sales and get AI-powered insights on your products."
   },
   {
@@ -129,9 +129,3 @@ export default function TutorialDialog({ pageId, children }: TutorialDialogProps
     </Dialog>
   );
 }
-
-    
-
-
-
-
