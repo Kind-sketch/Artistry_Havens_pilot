@@ -23,7 +23,7 @@ const tutorials: Tutorial[] = [
   {
     id: 'add-product',
     title: 'How to Add a Product',
-    videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
+    videoUrl: 'https://ik.imagekit.io/u92ylzrua/Add-product.mp4?updatedAt=1762087122479',
     description: "Learn how to upload a photo and use AI to generate your product details in just a few clicks."
   },
   {
