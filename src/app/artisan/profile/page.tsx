@@ -191,7 +191,8 @@ function ProfilePageComponent() {
   };
   
   const renderVoiceInput = (field: ProfileField) => {
-    if (language === 'en' || !isEditing) return null;
+    // Disable voice input for phone number field
+    if (field === 'phone' || !isEditing) return null;
     return (
        <Button 
           type="button" 
@@ -375,5 +376,3 @@ export default function ProfilePage() {
     </Suspense>
   )
 }
-
-    
