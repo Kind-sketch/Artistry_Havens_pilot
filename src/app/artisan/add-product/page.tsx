@@ -28,6 +28,7 @@ import ProductCard from '@/components/product-card';
 import { useTranslation } from '@/context/translation-context';
 import { useLanguage } from '@/context/language-context';
 import TutorialDialog from '@/components/tutorial-dialog';
+import { Checkbox } from '@/components/ui/checkbox';
 
 
 const formSchema = z.object({
@@ -479,6 +480,20 @@ export default function AddProductPage() {
                             <FormMessage />
                         </FormItem>
                         )}/>
+                        <div className="items-top flex space-x-2 pt-2">
+                            <Checkbox id="social-media-consent" />
+                            <div className="grid gap-1.5 leading-none">
+                                <label
+                                htmlFor="social-media-consent"
+                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                >
+                                Feature on Social Media
+                                </label>
+                                <p className="text-sm text-muted-foreground">
+                                I agree to allow the admin to feature this product's image on official social media channels.
+                                </p>
+                            </div>
+                        </div>
                     </CardContent>
                     <CardFooter className="flex flex-col sm:flex-row gap-2">
                         <Dialog>
@@ -516,5 +531,3 @@ export default function AddProductPage() {
 }
 
     
-
-      
