@@ -72,7 +72,7 @@ const tutorials: Tutorial[] = [
   {
     id: 'home',
     title: 'Exploring Trends',
-    videoUrl: 'https://ik.imagekit.io/6dbfqmlzz/download%20(2).mp4?updatedAt=1761487760209',
+    videoUrl: 'https://ik.imagekit.io/u92ylzrua/Trends_home.mp4?updatedAt=1762100834587',
     description: "Learn how to discover popular products, save them for inspiration, and get AI-powered reviews on your own ideas."
   },
 ];
@@ -131,6 +131,7 @@ export default function TutorialDialog({ pageId, children }: TutorialDialogProps
 }
 
     
+
 
 
 
