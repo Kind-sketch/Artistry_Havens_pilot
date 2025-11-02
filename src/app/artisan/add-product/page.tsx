@@ -412,11 +412,17 @@ export default function AddProductPage() {
                         </Button>
                     ) : (
                         <>
-                            <Button onClick={() => fileInputRef.current?.click()} variant="outline">
-                                <Upload className="mr-2 h-4 w-4" />{t.uploadButton}
+                            <Button onClick={() => fileInputRef.current?.click()} variant="outline" className="h-12 flex-col">
+                                <div className="flex items-center">
+                                    <Upload className="mr-2 h-4 w-4" />
+                                    <span>{t.uploadButton}</span>
+                                </div>
                             </Button>
-                            <Button onClick={startCamera} variant="outline">
-                                <Camera className="mr-2 h-4 w-4" />{t.cameraButton}
+                            <Button onClick={startCamera} variant="outline" className="h-12 flex-col">
+                                <div className="flex items-center">
+                                    <Camera className="mr-2 h-4 w-4" />
+                                    <span>{t.cameraButton}</span>
+                                </div>
                             </Button>
                         </>
                     )}
@@ -530,5 +536,7 @@ export default function AddProductPage() {
     </div>
   );
 }
+
+    
 
     
