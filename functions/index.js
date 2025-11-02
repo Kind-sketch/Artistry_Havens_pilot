@@ -33,7 +33,7 @@ exports.testBackend = onRequest((req, res) => {
   res.status(200).json({
     message: "Firebase backend is running successfully!",
     database: "(default)",
-    region: "asia-south2",
+    region: "asia-south1",
   });
 });
 
