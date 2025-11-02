@@ -404,7 +404,7 @@ export default function AddProductPage() {
                     </div>
                 </CardContent>
 
-                <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <CardContent className="flex flex-col gap-2">
                     {useCamera && stream ? (
                         <Button onClick={handleCapture} className="w-full">
                             <Camera className="mr-2 h-4 w-4" />
@@ -412,17 +412,13 @@ export default function AddProductPage() {
                         </Button>
                     ) : (
                         <>
-                            <Button onClick={() => fileInputRef.current?.click()} variant="outline" className="h-12 flex flex-col items-center justify-center">
-                                <div className="flex items-center">
-                                    <Upload className="mr-2 h-4 w-4" />
-                                    <span>{t.uploadButton}</span>
-                                </div>
+                            <Button onClick={() => fileInputRef.current?.click()} variant="outline" className="h-12 flex items-center justify-center">
+                                <Upload className="mr-2 h-4 w-4" />
+                                <span>{t.uploadButton}</span>
                             </Button>
-                            <Button onClick={startCamera} variant="outline" className="h-12 flex flex-col items-center justify-center">
-                                <div className="flex items-center">
-                                    <Camera className="mr-2 h-4 w-4" />
-                                    <span>{t.cameraButton}</span>
-                                </div>
+                            <Button onClick={startCamera} variant="outline" className="h-12 flex items-center justify-center">
+                                <Camera className="mr-2 h-4 w-4" />
+                                <span>{t.cameraButton}</span>
                             </Button>
                         </>
                     )}
