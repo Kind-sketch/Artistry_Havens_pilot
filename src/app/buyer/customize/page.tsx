@@ -64,7 +64,6 @@ export default function CustomizePage() {
       recognitionRef.current.onend = () => setIsListening(false);
       recognitionRef.current.onerror = (event: any) => {
         if (event.error === 'no-speech' || event.error === 'aborted') {
-            console.log('Speech recognition aborted or no speech detected.');
             setIsListening(false);
             return;
         }

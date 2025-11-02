@@ -114,6 +114,10 @@ export function HeaderActions() {
         recognition.onstart = () => setIsListening(true);
         recognition.onend = () => setIsListening(false);
         recognition.onerror = (event: any) => {
+            if (event.error === 'no-speech' || event.error === 'aborted') {
+                setIsListening(false);
+                return; // Don't show a toast for these "errors"
+            }
             console.error('Speech recognition error:', event.error);
             if (event.error === 'network') {
                 toast({

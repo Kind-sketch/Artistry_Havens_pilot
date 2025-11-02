@@ -58,6 +58,10 @@ export default function CustomizeWithReferencePage() {
       recognitionRef.current.onstart = () => setIsListening(true);
       recognitionRef.current.onend = () => setIsListening(false);
       recognitionRef.current.onerror = (event: any) => {
+        if (event.error === 'no-speech' || event.error === 'aborted') {
+            setIsListening(false);
+            return;
+        }
         console.error('Speech recognition error:', event.error);
         toast({ variant: 'destructive', title: 'Voice Error', description: 'Could not recognize your voice.' });
         setIsListening(false);
@@ -256,5 +260,3 @@ export default function CustomizeWithReferencePage() {
     </div>
   );
 }
-
-      
