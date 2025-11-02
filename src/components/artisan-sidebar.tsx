@@ -119,24 +119,8 @@ export function HeaderActions() {
         };
         
         recognition.onerror = (event: any) => {
-            // Ignore errors that are not actual failures
-            if (event.error === 'no-speech' || event.error === 'aborted') {
-                return;
-            }
             console.error('Speech recognition error:', event.error);
-            if (event.error === 'network') {
-                toast({
-                    variant: 'destructive',
-                    title: t_sidebar.voiceNetworkErrorTitle,
-                    description: t_sidebar.voiceNetworkErrorDesc,
-                });
-            } else {
-                 toast({ 
-                    variant: 'destructive', 
-                    title: t_sidebar.voiceErrorTitle,
-                    description: t_sidebar.voiceErrorDesc 
-                });
-            }
+            // No toast notifications will be shown for any voice error.
         };
 
         recognition.onresult = (event: any) => {
@@ -156,7 +140,6 @@ export function HeaderActions() {
         setIsProcessing(true); // Mark as processing
 
         const processCommand = async () => {
-            toast({ title: t_sidebar.voiceHeard, description: `"${spokenCommand}"` });
             
             try {
                 const recognition = recognitionRef.current;
@@ -172,11 +155,10 @@ export function HeaderActions() {
                         router.push(path);
                     }
                 } else {
-                    toast({ variant: 'destructive', title: t_sidebar.navFailed, description: t_sidebar.navFailedDesc });
+                    console.warn("Navigation failed: command not understood.");
                 }
             } catch (error) {
                 console.error('AI navigation error:', error);
-                toast({ variant: 'destructive', title: t_sidebar.aiError, description: t_sidebar.aiErrorDesc });
             } finally {
                 setSpokenCommand(null); // Reset command after processing
                 setIsProcessing(false); // Finish processing
