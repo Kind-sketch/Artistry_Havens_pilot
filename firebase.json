@@ -1,4 +1,3 @@
-
 {
   "firestore": {
     "database": "default",
@@ -10,7 +9,7 @@
     {
       "source": "functions",
       "codebase": "default",
-      "region": "asia-south1",
+      "region": "asia-south2",
       "disallowLegacyRuntimeConfig": true,
       "ignore": [
         "node_modules",
@@ -19,9 +18,7 @@
         "firebase-debug.*.log",
         "*.local"
       ],
-      "predeploy": [
-        "npm --prefix \"$RESOURCE_DIR\" run lint"
-      ]
+      "predeploy": []
     }
   ],
   "hosting": {

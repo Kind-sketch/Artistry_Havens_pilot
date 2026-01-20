@@ -2,8 +2,9 @@
 'use client';
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { initializeFirebase, useUser } from '@/firebase';
+import { collection, query, where, onSnapshot, doc, updateDoc } from 'firebase/firestore';
 import type { Product } from '@/lib/types';
-import { products as sampleProducts } from '@/lib/data';
 
 export type OrderStatus = 'Processing' | 'Shipped' | 'Delivered';
 
@@ -25,43 +26,80 @@ interface ArtisanContextType {
 const ArtisanContext = createContext<ArtisanContextType | undefined>(undefined);
 
 export function ArtisanProvider({ children }: { children: ReactNode }) {
+  const { user } = useUser();
   const [products, setProducts] = useState<Product[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
-    // Load products from localStorage
-    const storedProducts = localStorage.getItem('myArtisanProducts');
-    if (storedProducts) {
-      setProducts(JSON.parse(storedProducts));
+    if (!user) {
+      setProducts([]);
+      setOrders([]);
+      return;
     }
 
-    // Load orders from localStorage or create mock data
-    const storedOrders = localStorage.getItem('myOrders');
-    if (storedOrders) {
-      setOrders(JSON.parse(storedOrders));
-    } else {
-      // Create some initial mock orders if none exist
-      const mockOrders: Order[] = sampleProducts.slice(3, 5).map((p, i) => ({
-        id: `order-${i + 1}`,
-        product: p,
-        quantity: 1,
-        buyer: `Customer ${i + 1}`,
-        orderDate: new Date(Date.now() - i * 24 * 60 * 60 * 1000).toISOString(),
-        status: 'Processing',
-      }));
-      setOrders(mockOrders);
-      localStorage.setItem('myOrders', JSON.stringify(mockOrders));
-    }
-  }, []);
+    const { firestore } = initializeFirebase();
 
-  const updateOrderStatus = (orderId: string, status: OrderStatus) => {
-    setOrders(prevOrders => {
-      const updatedOrders = prevOrders.map(order =>
-        order.id === orderId ? { ...order, status } : order
-      );
-      localStorage.setItem('myOrders', JSON.stringify(updatedOrders));
-      return updatedOrders;
+    // Subscribe to Products
+    const qProducts = query(collection(firestore, 'products'), where('artisanId', '==', user.uid));
+    const unsubscribeProducts = onSnapshot(qProducts, (snapshot) => {
+      const fetchedProducts: Product[] = [];
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        fetchedProducts.push({
+          id: doc.id,
+          name: data.name,
+          price: data.price,
+          image: data.image,
+          category: data.category,
+          description: data.description,
+          likes: data.likes || 0,
+          sales: data.sales || 0,
+          reviews: data.reviews,
+          story: data.story,
+          artisan: { // Construct partial artisan info as stored or needed
+            id: data.artisanId,
+            name: data.artisanName || 'Me',
+            avatar: { url: '', hint: '' }
+          }
+        });
+      });
+      setProducts(fetchedProducts);
     });
+
+    // Subscribe to Orders
+    const qOrders = query(collection(firestore, 'orders'), where('artisanId', '==', user.uid));
+    const unsubscribeOrders = onSnapshot(qOrders, (snapshot) => {
+      const fetchedOrders: Order[] = [];
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        fetchedOrders.push({
+          id: doc.id,
+          product: data.product, // Assuming product object is stored in order, or we fetches. Ideally normalized.
+          // For simplicity, assuming the order doc contains a snapshot of the product.
+          quantity: data.quantity,
+          buyer: data.buyerDisplayName || 'Unknown Buyer', // Use display name or ID
+          orderDate: data.orderDate,
+          status: data.status,
+        });
+      });
+      setOrders(fetchedOrders);
+    });
+
+    return () => {
+      unsubscribeProducts();
+      unsubscribeOrders();
+    };
+  }, [user]);
+
+  const updateOrderStatus = async (orderId: string, status: OrderStatus) => {
+    try {
+      const { firestore } = initializeFirebase();
+      const orderRef = doc(firestore, 'orders', orderId);
+      await updateDoc(orderRef, { status });
+      // State updates via onSnapshot
+    } catch (error) {
+      console.error("Failed to update order status", error);
+    }
   };
 
   const value = { products, orders, updateOrderStatus };
